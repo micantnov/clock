@@ -1,26 +1,48 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- iPad fullscreen + black status bar -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Proper viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Live Clock</title>
+
   <style>
-    body {
+    html, body {
       background-color: black;
-      color: white;
-      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    /* Handle safe-area (iPad status bar space) */
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      padding-bottom: env(safe-area-inset-bottom);
+
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
     }
+
     #clock {
       font-size: 18vw;
+      color: white;
+      font-family: Arial, sans-serif;
       letter-spacing: 2px;
     }
   </style>
 </head>
+
 <body>
   <div id="clock"></div>
 
@@ -34,9 +56,9 @@
       const ampm = hours >= 12 ? 'pm' : 'am';
       hours = hours % 12 || 12;
 
-      const formattedTime = 
-        hours + ':' + 
-        minutes.toString().padStart(2, '0') + ':' + 
+      const formattedTime =
+        hours + ':' +
+        minutes.toString().padStart(2, '0') + ':' +
         seconds.toString().padStart(2, '0') + ampm;
 
       document.getElementById('clock').textContent = formattedTime;
