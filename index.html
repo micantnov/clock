@@ -22,7 +22,6 @@
       width: 100%;
     }
 
-    /* Handle safe-area (iPad status bar space) */
     body {
       padding-top: env(safe-area-inset-top);
       padding-left: env(safe-area-inset-left);
@@ -47,19 +46,33 @@
   <div id="clock"></div>
 
   <script>
+    let use24h = false; // toggles when pressing S
+
     function updateClock() {
       const now = new Date();
 
       let hours = now.getHours();
       const minutes = now.getMinutes();
       const seconds = now.getSeconds();
-      const ampm = hours >= 12 ? 'pm' : 'am';
-      hours = hours % 12 || 12;
 
-      const formattedTime =
-        hours + ':' +
-        minutes.toString().padStart(2, '0') + ':' +
-        seconds.toString().padStart(2, '0') + ampm;
+      let formattedTime;
+
+      if (use24h) {
+        // 24-hour mode
+        formattedTime =
+          hours.toString().padStart(2, '0') + ':' +
+          minutes.toString().padStart(2, '0') + ':' +
+          seconds.toString().padStart(2, '0');
+      } else {
+        // 12-hour mode (your current style)
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        let h12 = hours % 12 || 12;
+
+        formattedTime =
+          h12 + ':' +
+          minutes.toString().padStart(2, '0') + ':' +
+          seconds.toString().padStart(2, '0') + ampm;
+      }
 
       document.getElementById('clock').textContent = formattedTime;
 
@@ -68,6 +81,13 @@
     }
 
     updateClock();
+
+    // === Toggle clock style with "S" ===
+    document.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "s") {
+        use24h = !use24h;
+      }
+    });
   </script>
 </body>
 </html>
